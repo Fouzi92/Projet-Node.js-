@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const ObjectID = require("mongoose").Types.ObjectId;
 
 const { PostsModel } = require("../models/postsModel");
 
@@ -10,4 +9,17 @@ router.get("/", (req, res) => {
     else console.log("Error to get data : " + err);
   });
 });
+
+router.post("/", (req, res) => {
+  console.log(req);
+  const newRecord = new PostsModel({
+    author: req.body.author,
+    message: req.body.message,
+  });
+  newRecord.save((err, docs) => {
+    if (!err) res.send(docs);
+    else console.log("Error creating new date :" + err);
+  });
+});
+
 module.exports = router;
